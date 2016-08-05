@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    talib_ruby (1.0.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  talib_ruby
+
+BUNDLED WITH
+   1.11.2

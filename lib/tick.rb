@@ -1,14 +1,16 @@
-class Tick  
+require 'time'
+
+class Tick
 	def initialize(utc_timestamp, price)  
 		# Instance variables  
 		@price = price
-		@utc_timestamp = utc_timestamp
+		@time = DateTime.strptime(utc_timestamp,'%s')
 	end  
 
 	# Getters
-	def timestamp
-		@utc_timestamp
-	end  
+	def time
+		@time
+	end
 
 	def price
 		@price
