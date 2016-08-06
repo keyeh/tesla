@@ -1,3 +1,5 @@
+require 'active_support/time'
+
 require 'indicator'
 require 'time'
 include Indicator
@@ -23,10 +25,35 @@ class Chart
 	end
 
 	def getCandles(interval)
-		@candles = []
-		@ticks.each do |tick|
+		candles = []
 
+		candleCloseIndex = 0
+
+		while candleCloseIndex < @ticks.length-1
+			workingTicksSet = @ticks.drop(candleCloseIndex)
+
+			candleOpen = workingTicksSet.first
+			candleHigh = workingTicksSet.first
+			candleLow = workingTicksSet.first
+			candleClose = nil
+
+			workingTicksSet.each_with_index { |tick, index|
+				candleHigh = tick if tick.price >= candleHigh.price
+				candleLow = tick if tick.price <= candleLow.price
+
+				puts "candleCloseIndex= #{candleCloseIndex}"
+
+				if  workingTicksSet[index+1].present? == false || workingTicksSet[index+1].time > candleOpen.time + interval
+					candleClose = tick
+					candleCloseIndex = candleCloseIndex+index
+					break
+				end
+			}
+
+			candles.push [candleOpen, candleHigh, candleLow, candleClose]
 		end
+
+		return candles
 	end
 
 
